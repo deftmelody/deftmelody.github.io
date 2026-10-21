@@ -4,22 +4,169 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>DeftMelody</title>
+<meta name="description" content="DeftMelody makes small, focused Android apps: Doc Scanner, Lodiesa sleep sounds and Scrum Poker Cards.">
+<link rel="icon" href="img/lodiesa.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root { --bg: #f7f6f2; --ink: #1d2230; --accent: #3249c4; }
-  @media (prefers-color-scheme: dark) { :root { --bg: #14161c; --ink: #e8e9ee; --accent: #8c9cff; } }
-  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
-  main { max-width: 760px; margin: 0 auto; padding: 32px 16px; }
+  :root {
+    --bg: #f6f5f1; --bg2: #ecebe5; --card: #ffffff; --ink: #161a26; --muted: #5b6273;
+    --line: #e2e0d8; --accent: #3249c4; --accent-ink: #ffffff; --glow: rgba(50, 73, 196, .14);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1218; --bg2: #151a24; --card: #1a1f2a; --ink: #eceef4; --muted: #a2a8b8;
+      --line: #2a303d; --accent: #8c9cff; --accent-ink: #0f1218; --glow: rgba(140, 156, 255, .16);
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; color: var(--ink); background: var(--bg);
+    font: 16px/1.6 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
   a { color: var(--accent); }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+
+  header.hero {
+    text-align: center; padding: 88px 0 72px;
+    background:
+      radial-gradient(600px 300px at 15% 0%, var(--glow), transparent 70%),
+      radial-gradient(500px 280px at 90% 20%, var(--glow), transparent 70%),
+      linear-gradient(180deg, var(--bg2), var(--bg));
+  }
+  .logo {
+    width: 64px; height: 64px; margin: 0 auto 20px; border-radius: 18px;
+    display: grid; place-items: center;
+    background: linear-gradient(135deg, #3249c4, #7b5cff); color: #fff;
+    font: 800 28px/1 Montserrat, sans-serif; box-shadow: 0 10px 30px rgba(50, 73, 196, .35);
+  }
+  h1 { font: 800 clamp(36px, 6vw, 56px)/1.1 Montserrat, sans-serif; margin: 0 0 14px; letter-spacing: -.02em; }
+  .tagline { color: var(--muted); font-size: clamp(17px, 2.2vw, 20px); max-width: 560px; margin: 0 auto 28px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: 999px;
+    background: var(--accent); color: var(--accent-ink); text-decoration: none; font-weight: 600;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 22px var(--glow); }
+
+  section { padding: 56px 0; }
+  h2 { font: 700 26px/1.2 Montserrat, sans-serif; margin: 0 0 8px; }
+  .sub { color: var(--muted); margin: 0 0 28px; }
+
+  .apps { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); }
+  .app {
+    display: flex; flex-direction: column; background: var(--card); border: 1px solid var(--line);
+    border-radius: 20px; padding: 24px; transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .app:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0, 0, 0, .08); }
+  .app-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .app img { width: 64px; height: 64px; border-radius: 16px; box-shadow: 0 4px 14px rgba(0, 0, 0, .12); }
+  .app h3 { font: 700 19px/1.25 Montserrat, sans-serif; margin: 0; }
+  .tag { display: inline-block; margin-top: 4px; font-size: 13px; color: var(--muted); }
+  .app p { color: var(--muted); margin: 0 0 20px; flex: 1; }
+  .app-links { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+  .play {
+    display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 12px;
+    background: var(--ink); color: var(--bg); text-decoration: none; font-weight: 500; font-size: 14px;
+  }
+  .play svg { width: 18px; height: 18px; }
+  .small { font-size: 14px; }
+
+  .values { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr)); }
+  .value { padding: 20px; border-radius: 16px; background: var(--bg2); }
+  .value strong { display: block; font-family: Montserrat, sans-serif; margin-bottom: 4px; }
+  .value span { color: var(--muted); font-size: 15px; }
+
+  footer { border-top: 1px solid var(--line); padding: 28px 0 40px; color: var(--muted); font-size: 14px; }
+  footer .wrap { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; }
+  footer a { color: var(--muted); }
 </style>
 </head>
 <body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="logo">D</div>
+    <h1>DeftMelody</h1>
+    <p class="tagline">Small, focused Android apps that do one thing well, without the clutter.</p>
+    <a class="btn" href="#apps">See our apps ↓</a>
+  </div>
+</header>
+
 <main>
-  <h1>DeftMelody</h1>
-  <p>Small, focused Android apps.</p>
-  <ul>
-    <li><a href="https://play.google.com/store/apps/details?id=com.deftmelody.docscanner">Doc Scanner</a></li>
-  </ul>
-  <p><a href="policy/">Privacy policies</a> · Contact: <a href="mailto:melodies.liv@gmail.com">melodies.liv@gmail.com</a></p>
+  <section id="apps">
+    <div class="wrap">
+      <h2>Our apps</h2>
+      <p class="sub">Available on Google Play.</p>
+      <div class="apps">
+
+        <article class="app">
+          <div class="app-head">
+            <img src="img/docscanner.png" alt="Doc Scanner icon" width="64" height="64">
+            <div><h3>Doc Scanner</h3><span class="tag">Productivity</span></div>
+          </div>
+          <p>Scan documents to PDF, recognize text and keep files organized in folders. Your documents stay on your device.</p>
+          <div class="app-links">
+            <a class="play" href="https://play.google.com/store/apps/details?id=com.deftmelody.docscanner">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.5v19l10.2-9.5L4 2.5zm11.6 8.2L6.4 1.6l11.9 6.6-2.7 2.5zm0 2.6l2.7 2.5-11.9 6.6 9.2-9.1zm3.9-4.4l2.9 1.6c.8.5.8 1.5 0 2l-2.9 1.6-3-2.6 3-2.6z"/></svg>
+              Get it on Google Play</a>
+            <a class="small" href="policy/docscanner-privacy.html">Privacy policy</a>
+          </div>
+        </article>
+
+        <article class="app">
+          <div class="app-head">
+            <img src="img/lodiesa.png" alt="Lodiesa icon" width="64" height="64">
+            <div><h3>Lodiesa</h3><span class="tag">Sleep sounds &amp; stories</span></div>
+          </div>
+          <p>Rain sounds, white noise and nature sounds to mix into your own blend, plus calm sleep stories and a sleep timer.</p>
+          <div class="app-links">
+            <a class="play" href="https://play.google.com/store/apps/details?id=com.deftmelody.melodiiesmusic">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.5v19l10.2-9.5L4 2.5zm11.6 8.2L6.4 1.6l11.9 6.6-2.7 2.5zm0 2.6l2.7 2.5-11.9 6.6 9.2-9.1zm3.9-4.4l2.9 1.6c.8.5.8 1.5 0 2l-2.9 1.6-3-2.6 3-2.6z"/></svg>
+              Get it on Google Play</a>
+            <a class="small" href="policy/lodiesa-privacy.html">Privacy policy</a>
+          </div>
+        </article>
+
+        <article class="app">
+          <div class="app-head">
+            <img src="img/scrumpoker.png" alt="Scrum Poker Cards icon" width="64" height="64">
+            <div><h3>Scrum Poker Cards</h3><span class="tag">Agile estimation</span></div>
+          </div>
+          <p>Pick a card face down, tap to reveal. Fibonacci, T-shirt and standard decks for honest story point estimates.</p>
+          <div class="app-links">
+            <a class="play" href="https://play.google.com/store/apps/details?id=com.deftmelody.scrumpokercards">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.5v19l10.2-9.5L4 2.5zm11.6 8.2L6.4 1.6l11.9 6.6-2.7 2.5zm0 2.6l2.7 2.5-11.9 6.6 9.2-9.1zm3.9-4.4l2.9 1.6c.8.5.8 1.5 0 2l-2.9 1.6-3-2.6 3-2.6z"/></svg>
+              Get it on Google Play</a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>How we build</h2>
+      <p class="sub">A few promises behind every app.</p>
+      <div class="values">
+        <div class="value"><strong>Focused</strong><span>One clear job per app, done quickly and simply.</span></div>
+        <div class="value"><strong>No sign-up</strong><span>No accounts required. Your files and settings stay on your phone.</span></div>
+        <div class="value"><strong>Multilingual</strong><span>Store pages in 16 languages, so more people feel at home.</span></div>
+        <div class="value"><strong>Lightweight</strong><span>Modern Android, small downloads, smooth on everyday phones.</span></div>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 DeftMelody</span>
+    <span><a href="policy/">Privacy policies</a> · <a href="mailto:melodies.liv@gmail.com">melodies.liv@gmail.com</a></span>
+  </div>
+</footer>
+
 </body>
 </html>
